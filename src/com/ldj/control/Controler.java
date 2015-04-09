@@ -75,7 +75,7 @@ public class Controler extends KeyAdapter {
 			case 'a':
 			case 'A': {
 				if (this.minePanel != null && this.minePanel.getTank() != null) {
-					this.minePanel.getTank().setDirection(DIRECTION.left);
+					this.minePanel.getTank().move(DIRECTION.left);
 				}
 				
 				break;
@@ -83,7 +83,7 @@ public class Controler extends KeyAdapter {
 			case 'w':
 			case 'W': {
 				if (this.minePanel != null && this.minePanel.getTank() != null) {
-					this.minePanel.getTank().setDirection(DIRECTION.up);
+					this.minePanel.getTank().move(DIRECTION.up);
 				}
 				
 				break;
@@ -91,7 +91,7 @@ public class Controler extends KeyAdapter {
 			case 's':
 			case 'S': {
 				if (this.minePanel != null && this.minePanel.getTank() != null) {
-					this.minePanel.getTank().setDirection(DIRECTION.down);
+					this.minePanel.getTank().move(DIRECTION.down);
 				}
 				
 				break;
@@ -99,7 +99,7 @@ public class Controler extends KeyAdapter {
 			case 'd':
 			case 'D': {
 				if (this.minePanel != null && this.minePanel.getTank() != null) {
-					this.minePanel.getTank().setDirection(DIRECTION.right);
+					this.minePanel.getTank().move(DIRECTION.right);
 				}
 				
 				break;
