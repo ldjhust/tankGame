@@ -76,7 +76,63 @@ public class Tank {
 	 * @param direction 给坦克指定的移动方向
 	 */
 	public void move(DIRECTION direction) {
+		if (this.direction != direction) {
+			// 如果指定坦克运动的方向与坦克本身的方向不一致，那么本次就只改变坦克的方向，
+			// 并不改变坦克的坐标
+			this.direction = direction;
+			
+			return;
+		}
 		
+		switch (direction) {
+			case up: {
+				int deltaY = this.tankCenter.getY() - GameConst.TANK_SPEED;
+				if ((deltaY - (GameConst.TANK_WELL_WIDTH >> 1)) < (GameConst.TANK_WEEL_LENGTH >> 1)) {
+					// 空出坦克轮子宽度的一半，不然当坦克顶着墙转向时轮子会跑出一半到游戏区域外
+					// 如果坦克走了这一步跑出游戏区域外了，这一步就不走
+					return;
+				}
+				
+				this.tankCenter.setY(deltaY);
+				break;
+			}
+			case down: {
+				int deltaY = this.tankCenter.getY() + GameConst.TANK_SPEED;
+				if (((deltaY + (GameConst.TANK_WELL_WIDTH >> 1)) + (GameConst.TANK_WEEL_LENGTH >> 1)) > GameConst.GAME_AREA_HEIGHT) {
+					// 空出坦克轮子宽度的一半，不然当坦克顶着墙转向时轮子会跑出一半到游戏区域外
+					// 如果坦克走了这一步跑出游戏区域外了，这一步就不走
+					return;
+				}
+				
+				this.tankCenter.setY(deltaY);
+				break;
+			}
+			case left: {
+				int deltaX = this.tankCenter.getX() - GameConst.TANK_SPEED;
+				if ((deltaX - (GameConst.TANK_WELL_WIDTH >> 1)) < (GameConst.TANK_WEEL_LENGTH >> 1)) {
+					// 空出坦克轮子宽度的一半，不然当坦克顶着墙转向时轮子会跑出一半到游戏区域外
+					// 如果坦克走了这一步跑出游戏区域外了，这一步就不走
+					return;
+				}
+				
+				this.tankCenter.setX(deltaX);
+				break;
+			}
+			case right: {
+				int deltaX = this.tankCenter.getX() + GameConst.TANK_SPEED;
+				if (((deltaX + (GameConst.TANK_WELL_WIDTH >> 1)) + (GameConst.TANK_WEEL_LENGTH >> 1)) > GameConst.GAME_AREA_WIDTH) {
+					// 空出坦克轮子宽度的一半，不然当坦克顶着墙转向时轮子会跑出一半到游戏区域外
+					// 如果坦克走了这一步跑出游戏区域外了，这一步就不走
+					return;
+				}
+				
+				this.tankCenter.setX(deltaX);
+				break;
+			}
+			default: {
+				break;
+			}
+		}
 	}
 	
 	public DIRECTION getDirection() {
