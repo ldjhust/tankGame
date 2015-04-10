@@ -16,12 +16,10 @@ import com.ldj.ui.MinePanel;
  *
  */
 public class Controler extends KeyAdapter {
-	private boolean gameContinue;
 	private MinePanel minePanel = null;
 	private MineFrame mineFrame = null;
 	
 	public Controler() {
-		this.gameContinue = true;
 	}
 	
 	/**
@@ -103,6 +101,11 @@ public class Controler extends KeyAdapter {
 				}
 				
 				break;
+			}
+			case 'j':
+			case 'J': {
+				// 坦克发射一颗炮弹，并将这可炮弹添加到面板上
+				this.minePanel.setBomb(this.minePanel.getTank().shoot());
 			}
 			default:
 				break;

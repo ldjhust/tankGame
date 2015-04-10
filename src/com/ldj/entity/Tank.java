@@ -12,7 +12,8 @@ import com.ldj.entity.GameConst.DIRECTION;
  */
 public class Tank {
 	private Point tankCenter = null; // 坦克的中心坐标
-	private DIRECTION direction = null;
+	private DIRECTION direction = null; // 坦克的方向
+	private Bomb bomb = null; // 坦克的炮弹
 	
 	public Tank(Point tankCenter) {
 		this.tankCenter = tankCenter;
@@ -37,9 +38,9 @@ public class Tank {
 					// 画出炮筒
 					// 坦克上下方向只有坦克的炮筒方向需要改变
 					if (this.direction == DIRECTION.up) {
-						g.drawLine(this.tankCenter.getX(), this.tankCenter.getY(), this.tankCenter.getX(), this.tankCenter.getY() - 15);
+						g.drawLine(this.tankCenter.getX(), this.tankCenter.getY(), this.tankCenter.getX(), this.tankCenter.getY() - GameConst.TANK_SHOOT_LENGTH);
 					} else {
-						g.drawLine(this.tankCenter.getX(), this.tankCenter.getY(), this.tankCenter.getX(), this.tankCenter.getY() + 15);
+						g.drawLine(this.tankCenter.getX(), this.tankCenter.getY(), this.tankCenter.getX(), this.tankCenter.getY() + GameConst.TANK_SHOOT_LENGTH);
 					}
 					
 					// 画出轮子
@@ -53,9 +54,9 @@ public class Tank {
 				// 画出炮筒
 				// 坦克在左右方向只有坦克的炮筒方向需要改变
 				if (this.direction == DIRECTION.left) {
-					g.drawLine(this.tankCenter.getX(), this.tankCenter.getY(), this.tankCenter.getX() - 15, this.tankCenter.getY());
+					g.drawLine(this.tankCenter.getX(), this.tankCenter.getY(), this.tankCenter.getX() - GameConst.TANK_SHOOT_LENGTH, this.tankCenter.getY());
 				} else {
-					g.drawLine(this.tankCenter.getX(), this.tankCenter.getY(), this.tankCenter.getX() + 15, this.tankCenter.getY());
+					g.drawLine(this.tankCenter.getX(), this.tankCenter.getY(), this.tankCenter.getX() + GameConst.TANK_SHOOT_LENGTH, this.tankCenter.getY());
 				}
 				
 				// 画出轮子
@@ -133,6 +134,36 @@ public class Tank {
 				break;
 			}
 		}
+	}
+	
+	/**
+	 * 处理坦克的射击
+	 */
+	public Bomb shoot() {
+		// 在坦克的炮口生成一颗炮弹
+		switch (this.direction) {
+			case up: {
+				this.bomb = new Bomb(new Point(this.tankCenter.getX(), this.tankCenter.getY() - GameConst.TANK_SHOOT_LENGTH));
+				break;
+			}
+			case down: {
+				this.bomb = new Bomb(new Point(this.tankCenter.getX(), this.tankCenter.getY() + GameConst.TANK_SHOOT_LENGTH));
+				break;
+			}
+			case left: {
+				this.bomb = new Bomb(new Point(this.tankCenter.getX() - GameConst.TANK_SHOOT_LENGTH, this.tankCenter.getY()));
+				break;
+			}
+			case right: {
+				this.bomb = new Bomb(new Point(this.tankCenter.getX() + GameConst.TANK_SHOOT_LENGTH, this.tankCenter.getY()));
+				break;
+			}
+			default: {
+				break;
+			}
+		}
+		
+		return this.bomb;  // 返回生成的导弹，这颗导弹一旦生成就是面板上一个独立的个体，不再受坦克控制
 	}
 	
 	public DIRECTION getDirection() {
