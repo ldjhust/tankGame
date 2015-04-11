@@ -33,7 +33,7 @@ public class MinePanel extends JPanel {
 		}
 		
 		// 将游戏面板上的炮弹画出来
-		if (this.bomb != null) {
+		if (this.bomb != null && this.bomb.isAlive()) {
 			this.bomb.draw(g);
 		}
 	}

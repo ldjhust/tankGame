@@ -9,6 +9,7 @@ package com.ldj.entity;
 public abstract class GameConst {
 	public static enum DIRECTION {up, down, left, right}; // 定义坦克的方向，用枚举常量
 	public static final int TANK_SPEED = 5; // 定义坦克的速度
+	public static final int BOMB_SPEED = 10; // 定义炮弹的速度
 	public static final int TANK_WEEL_LENGTH = 30; // 定义坦克轮子的长度
 	public static final int TANK_WELL_WIDTH = 10;  // 定义坦克轮子的宽度
 	public static final int TANK_SHOOT_LENGTH = 15; // 定义坦克炮筒的长度
