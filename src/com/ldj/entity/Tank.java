@@ -15,7 +15,7 @@ import com.ldj.entity.GameConst.DIRECTION;
 public class Tank {
 	private Point tankCenter = null; // 坦克的中心坐标
 	private DIRECTION direction = null; // 坦克的方向
-	private Bomb bomb = null; // 坦克的炮弹
+	private int hasShooted = 0; // 坦克已经发射了多少颗炮弹，还在面板上的
 	
 	public Tank(Point tankCenter) {
 		this.tankCenter = tankCenter;
@@ -142,30 +142,41 @@ public class Tank {
 	 * 处理坦克的射击
 	 */
 	public Bomb shoot() {
+		if (this.hasShooted >= GameConst.TANK_MAX_BOMB_NUMBER) {
+			// 一旦已经发射数量达到最大就不能在设计，除非有炮弹已经灭亡
+			return null;
+		}
+		
+		Bomb bomb = null;
 		// 在坦克的炮口生成一颗炮弹
 		switch (this.direction) {
 			case up: {
-				this.bomb = new Bomb(new Point(this.tankCenter.getX(), this.tankCenter.getY() - GameConst.TANK_SHOOT_LENGTH), this.direction);
+				bomb = new Bomb(new Point(this.tankCenter.getX(), this.tankCenter.getY() - GameConst.TANK_SHOOT_LENGTH), this.direction, true);
 				break;
 			}
 			case down: {
-				this.bomb = new Bomb(new Point(this.tankCenter.getX(), this.tankCenter.getY() + GameConst.TANK_SHOOT_LENGTH), this.direction);
+				bomb = new Bomb(new Point(this.tankCenter.getX(), this.tankCenter.getY() + GameConst.TANK_SHOOT_LENGTH), this.direction, true);
 				break;
 			}
 			case left: {
-				this.bomb = new Bomb(new Point(this.tankCenter.getX() - GameConst.TANK_SHOOT_LENGTH, this.tankCenter.getY()), this.direction);
+				bomb = new Bomb(new Point(this.tankCenter.getX() - GameConst.TANK_SHOOT_LENGTH, this.tankCenter.getY()), this.direction, true);
 				break;
 			}
 			case right: {
-				this.bomb = new Bomb(new Point(this.tankCenter.getX() + GameConst.TANK_SHOOT_LENGTH, this.tankCenter.getY()), this.direction);
+				bomb = new Bomb(new Point(this.tankCenter.getX() + GameConst.TANK_SHOOT_LENGTH, this.tankCenter.getY()), this.direction, true);
 				break;
 			}
 			default: {
 				break;
 			}
 		}
+		if (this.hasShooted == 0) {
+			System.out.println(this.hasShooted);
+		}
+		// 坦克又成功发射一颗炮弹
+		this.hasShooted += 1;
 		
-		return this.bomb;  // 返回生成的导弹，这颗导弹一旦生成就是面板上一个独立的个体，不再受坦克控制
+		return bomb;  // 返回生成的导弹，这颗导弹一旦生成就是面板上一个独立的个体，不再受坦克控制
 	}
 	
 	public DIRECTION getDirection() {
@@ -174,5 +185,13 @@ public class Tank {
 
 	public void setDirection(DIRECTION direction) {
 		this.direction = direction;
+	}
+
+	public void subOneHasShooted() {
+		if (this.hasShooted >= 1) {
+			this.hasShooted -= 1;
+		}
+		
+		System.out.println(this.hasShooted);
 	}
 }

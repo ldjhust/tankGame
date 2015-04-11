@@ -15,11 +15,13 @@ public class Bomb {
 	private final int radius = 2; // 设计炮弹为圆形，炮弹半径为2
 	private DIRECTION direction = null; // 炮弹出生时的方向
 	private boolean isAlive = false;
+	private boolean isHeroBomb = false; // 标志这颗炮弹是敌方还是英雄方发射的
 	
-	public Bomb(Point bombCenter, DIRECTION direction) {
+	public Bomb(Point bombCenter, DIRECTION direction, boolean isHeroBomb) {
 		this.bombCenter = bombCenter;
 		this.direction = direction;
 		this.isAlive = true;
+		this.isHeroBomb = isHeroBomb;
 		
 		// 炮弹一出生就应该开始运动
 		new BombMoveDriver().start();
@@ -130,5 +132,9 @@ public class Bomb {
 	
 	public boolean isAlive() {
 		return isAlive;
+	}
+
+	public boolean isHeroBomb() {
+		return isHeroBomb;
 	}
 }

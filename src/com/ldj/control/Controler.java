@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.util.Date;
 
 import com.ldj.entity.GameConst.DIRECTION;
+import com.ldj.entity.Bomb;
 import com.ldj.entity.Point;
 import com.ldj.entity.Tank;
 import com.ldj.ui.MineFrame;
@@ -105,7 +106,10 @@ public class Controler extends KeyAdapter {
 			case 'j':
 			case 'J': {
 				// 坦克发射一颗炮弹，并将这可炮弹添加到面板上
-				this.minePanel.setBomb(this.minePanel.getTank().shoot());
+				Bomb bomb = this.minePanel.getTank().shoot();
+				if (bomb != null) {
+					this.minePanel.addBomb(bomb);
+				}
 			}
 			default:
 				break;
