@@ -2,6 +2,8 @@ package com.ldj.entity;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import com.ldj.entity.GameConst.DIRECTION;
 
