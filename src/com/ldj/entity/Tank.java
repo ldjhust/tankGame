@@ -175,6 +175,8 @@ public class Tank {
 		}
 		// 坦克又成功发射一颗炮弹
 		this.hasShooted += 1;
+		// 播放发射炮弹的声音
+		new PlaySound("sound/shoot.wav").start();
 		
 		return bomb;  // 返回生成的导弹，这颗导弹一旦生成就是面板上一个独立的个体，不再受坦克控制
 	}
