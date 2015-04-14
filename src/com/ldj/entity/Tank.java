@@ -16,10 +16,12 @@ public class Tank {
 	private Point tankCenter = null; // 坦克的中心坐标
 	private DIRECTION direction = null; // 坦克的方向
 	private int hasShooted = 0; // 坦克已经发射了多少颗炮弹，还在面板上的
+	private boolean isAlived = false; // 现在用boolean表示生命，后续用一个整数表示可以有生命值
 	
 	public Tank(Point tankCenter) {
 		this.tankCenter = tankCenter;
 		this.direction = DIRECTION.right;
+		this.isAlived = true;
 	}
 	
 	/**
@@ -90,7 +92,7 @@ public class Tank {
 		switch (direction) {
 			case up: {
 				int deltaY = this.tankCenter.getY() - GameConst.TANK_SPEED;
-				if ((deltaY - (GameConst.TANK_WELL_WIDTH >> 1)) < (GameConst.TANK_WEEL_LENGTH >> 1)) {
+				if (isOutofBound(this.tankCenter.getX(), deltaY)) {
 					// 空出坦克轮子宽度的一半，不然当坦克顶着墙转向时轮子会跑出一半到游戏区域外
 					// 如果坦克走了这一步跑出游戏区域外了，这一步就不走
 					return;
@@ -101,7 +103,7 @@ public class Tank {
 			}
 			case down: {
 				int deltaY = this.tankCenter.getY() + GameConst.TANK_SPEED;
-				if (((deltaY + (GameConst.TANK_WELL_WIDTH >> 1)) + (GameConst.TANK_WEEL_LENGTH >> 1)) > GameConst.GAME_AREA_HEIGHT) {
+				if (isOutofBound(this.tankCenter.getX(), deltaY)) {
 					// 空出坦克轮子宽度的一半，不然当坦克顶着墙转向时轮子会跑出一半到游戏区域外
 					// 如果坦克走了这一步跑出游戏区域外了，这一步就不走
 					return;
@@ -112,7 +114,7 @@ public class Tank {
 			}
 			case left: {
 				int deltaX = this.tankCenter.getX() - GameConst.TANK_SPEED;
-				if ((deltaX - (GameConst.TANK_WELL_WIDTH >> 1)) < (GameConst.TANK_WEEL_LENGTH >> 1)) {
+				if (isOutofBound(deltaX, this.tankCenter.getY())) {
 					// 空出坦克轮子宽度的一半，不然当坦克顶着墙转向时轮子会跑出一半到游戏区域外
 					// 如果坦克走了这一步跑出游戏区域外了，这一步就不走
 					return;
@@ -123,7 +125,7 @@ public class Tank {
 			}
 			case right: {
 				int deltaX = this.tankCenter.getX() + GameConst.TANK_SPEED;
-				if (((deltaX + (GameConst.TANK_WELL_WIDTH >> 1)) + (GameConst.TANK_WEEL_LENGTH >> 1)) > GameConst.GAME_AREA_WIDTH) {
+				if (this.isOutofBound(deltaX, this.tankCenter.getY())) {
 					// 空出坦克轮子宽度的一半，不然当坦克顶着墙转向时轮子会跑出一半到游戏区域外
 					// 如果坦克走了这一步跑出游戏区域外了，这一步就不走
 					return;
@@ -195,5 +197,56 @@ public class Tank {
 		}
 		
 		System.out.println(this.hasShooted);
+	}
+
+	
+	public boolean isOutofBound(int x, int y) {
+		switch (this.direction) {
+			case up: {
+				if (y - (GameConst.TANK_WEEL_LENGTH >> 1) < 5) {
+					return true;
+				}
+				
+				break;
+			}
+			case down: {
+				if (y + (GameConst.TANK_WEEL_LENGTH >> 1) > GameConst.GAME_AREA_HEIGHT - 5) {
+					return true;
+				}
+				
+				break;
+			}
+			case left: {
+				if (x - (GameConst.TANK_WEEL_LENGTH >> 1) < 5) {
+					return true;
+				}
+				
+				break;
+			}
+			case right: {
+				if (x + (GameConst.TANK_WEEL_LENGTH >> 1) > GameConst.GAME_AREA_WIDTH - 5) {
+					return true;
+				}
+				
+				break;
+			}
+			default: {
+				break;
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean isAlived() {
+		return isAlived;
+	}
+
+	public void setAlived(boolean isAlived) {
+		this.isAlived = isAlived;
+	}
+	
+	public Point getTankCenter() {
+		return this.tankCenter;
 	}
 }

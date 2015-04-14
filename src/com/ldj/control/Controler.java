@@ -2,12 +2,12 @@ package com.ldj.control;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Date;
 
-import com.ldj.entity.GameConst.DIRECTION;
 import com.ldj.entity.Bomb;
+import com.ldj.entity.EnemyTank;
+import com.ldj.entity.GameConst.DIRECTION;
+import com.ldj.entity.HeroTank;
 import com.ldj.entity.Point;
-import com.ldj.entity.Tank;
 import com.ldj.ui.MineFrame;
 import com.ldj.ui.MinePanel;
 
@@ -34,10 +34,11 @@ public class Controler extends KeyAdapter {
 		// 给游戏主窗口添加键盘监听器
 		this.mineFrame.addKeyListener(this);
 		
-		if (this.minePanel.getTank() == null) {
-			// 如果面板上没有坦克就创建一个坦克
-			this.minePanel.setTank(new Tank(new Point(100, 100)));
-		}
+		// 创建一个英雄并添加到面板中
+		this.minePanel.addTank(new HeroTank(new Point(100, 100)));
+		
+		// 创建一个地方坦克
+		this.minePanel.addTank(new EnemyTank(new Point(500, 300)));
 		
 		// 启动一个面板定时刷新的线程
 		new RefreshPanel().start();
@@ -73,32 +74,32 @@ public class Controler extends KeyAdapter {
 		switch (e.getKeyChar()) {
 			case 'a':
 			case 'A': {
-				if (this.minePanel != null && this.minePanel.getTank() != null) {
-					this.minePanel.getTank().move(DIRECTION.left);
+				if (this.minePanel != null && this.minePanel.getTanks() != null) {
+					this.minePanel.getTanks().get(0).move(DIRECTION.left);
 				}
 				
 				break;
 			}
 			case 'w':
 			case 'W': {
-				if (this.minePanel != null && this.minePanel.getTank() != null) {
-					this.minePanel.getTank().move(DIRECTION.up);
+				if (this.minePanel != null && this.minePanel.getTanks() != null) {
+					this.minePanel.getTanks().get(0).move(DIRECTION.up);
 				}
 				
 				break;
 			}
 			case 's':
 			case 'S': {
-				if (this.minePanel != null && this.minePanel.getTank() != null) {
-					this.minePanel.getTank().move(DIRECTION.down);
+				if (this.minePanel != null && this.minePanel.getTanks() != null) {
+					this.minePanel.getTanks().get(0).move(DIRECTION.down);
 				}
 				
 				break;
 			}
 			case 'd':
 			case 'D': {
-				if (this.minePanel != null && this.minePanel.getTank() != null) {
-					this.minePanel.getTank().move(DIRECTION.right);
+				if (this.minePanel != null && this.minePanel.getTanks() != null) {
+					this.minePanel.getTanks().get(0).move(DIRECTION.right);
 				}
 				
 				break;
@@ -106,7 +107,7 @@ public class Controler extends KeyAdapter {
 			case 'j':
 			case 'J': {
 				// 坦克发射一颗炮弹，并将这可炮弹添加到面板上
-				Bomb bomb = this.minePanel.getTank().shoot();
+				Bomb bomb = this.minePanel.getTanks().get(0).shoot();
 				if (bomb != null) {
 					this.minePanel.addBomb(bomb);
 				}

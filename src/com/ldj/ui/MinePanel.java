@@ -16,7 +16,7 @@ import com.ldj.entity.Point;
 import com.ldj.entity.Tank;
 
 public class MinePanel extends JPanel {
-	private Tank tank = null; //坦克是处于游戏面板之中
+	private ArrayList<Tank> tanks = new ArrayList<Tank>();  // ArrayList保存所有的坦克
 	private ArrayList<Bomb> bombs = new ArrayList<Bomb>(); // 把面板上的所有炮弹都放在一个链表里面
 	
 	public MinePanel() {
@@ -30,8 +30,10 @@ public class MinePanel extends JPanel {
 		g.fillRect(0, 0, GameConst.GAME_AREA_WIDTH, GameConst.GAME_AREA_HEIGHT);
 		
 		// 将游戏面板上的坦克画出来
-		if (this.tank != null) {
-			this.tank.draw(g);
+		for (Tank tank : tanks) {
+			if (tank != null) {
+				tank.draw(g);
+			}
 		}
 		
 		// 将游戏面板上有需要的炮弹画出来
@@ -40,7 +42,7 @@ public class MinePanel extends JPanel {
 				bombs.get(i).draw(g);
 			} else {
 				if (bombs.get(i) != null && bombs.get(i).isHeroBomb()) {
-					this.tank.subOneHasShooted();
+					this.tanks.get(0).subOneHasShooted();  // 英雄坦克永远放在tanks的第一个
 					// 因为要动态删除，所以从尾到头循环
 					this.bombs.remove(i);
 				}
@@ -58,12 +60,13 @@ public class MinePanel extends JPanel {
 		}
 	}
 	
-	/******************************setter和getter***********************************/
-	public Tank getTank() {
-		return tank;
+	public void addTank(Tank tank) {
+		if (this.tanks != null) {
+			this.tanks.add(tank);
+		}
 	}
 
-	public void setTank(Tank tank) {
-		this.tank = tank;
+	public ArrayList<Tank> getTanks() {
+		return tanks;
 	}
 }
