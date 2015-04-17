@@ -12,6 +12,7 @@ import javax.xml.bind.Marshaller.Listener;
 
 import com.ldj.entity.Bomb;
 import com.ldj.entity.GameConst;
+import com.ldj.entity.HeroTank;
 import com.ldj.entity.Point;
 import com.ldj.entity.Tank;
 
@@ -42,7 +43,8 @@ public class MinePanel extends JPanel {
 				bombs.get(i).draw(g);
 			} else {
 				if (bombs.get(i) != null && bombs.get(i).isHeroBomb()) {
-					this.tanks.get(0).subOneHasShooted();  // 英雄坦克永远放在tanks的第一个
+					HeroTank hero = (HeroTank)(this.tanks.get(0));
+					hero.subOneHasShooted();  // 英雄坦克永远放在tanks的第一个
 					// 因为要动态删除，所以从尾到头循环
 					this.bombs.remove(i);
 				}

@@ -15,7 +15,6 @@ import com.ldj.entity.GameConst.DIRECTION;
 public class Tank {
 	private Point tankCenter = null; // 坦克的中心坐标
 	private DIRECTION direction = null; // 坦克的方向
-	private int hasShooted = 0; // 坦克已经发射了多少颗炮弹，还在面板上的
 	private boolean isAlived = false; // 现在用boolean表示生命，后续用一个整数表示可以有生命值
 	
 	public Tank(Point tankCenter) {
@@ -143,40 +142,31 @@ public class Tank {
 	/**
 	 * 处理坦克的射击
 	 */
-	public Bomb shoot() {
-		if (this.hasShooted >= GameConst.TANK_MAX_BOMB_NUMBER) {
-			// 一旦已经发射数量达到最大就不能在设计，除非有炮弹已经灭亡
-			return null;
-		}
-		
+	public Bomb shoot() {		
 		Bomb bomb = null;
 		// 在坦克的炮口生成一颗炮弹
 		switch (this.direction) {
 			case up: {
-				bomb = new Bomb(new Point(this.tankCenter.getX(), this.tankCenter.getY() - GameConst.TANK_SHOOT_LENGTH), this.direction, true);
+				bomb = new Bomb(new Point(this.tankCenter.getX(), this.tankCenter.getY() - GameConst.TANK_SHOOT_LENGTH), this.direction, false);
 				break;
 			}
 			case down: {
-				bomb = new Bomb(new Point(this.tankCenter.getX(), this.tankCenter.getY() + GameConst.TANK_SHOOT_LENGTH), this.direction, true);
+				bomb = new Bomb(new Point(this.tankCenter.getX(), this.tankCenter.getY() + GameConst.TANK_SHOOT_LENGTH), this.direction, false);
 				break;
 			}
 			case left: {
-				bomb = new Bomb(new Point(this.tankCenter.getX() - GameConst.TANK_SHOOT_LENGTH, this.tankCenter.getY()), this.direction, true);
+				bomb = new Bomb(new Point(this.tankCenter.getX() - GameConst.TANK_SHOOT_LENGTH, this.tankCenter.getY()), this.direction, false);
 				break;
 			}
 			case right: {
-				bomb = new Bomb(new Point(this.tankCenter.getX() + GameConst.TANK_SHOOT_LENGTH, this.tankCenter.getY()), this.direction, true);
+				bomb = new Bomb(new Point(this.tankCenter.getX() + GameConst.TANK_SHOOT_LENGTH, this.tankCenter.getY()), this.direction, false);
 				break;
 			}
 			default: {
 				break;
 			}
 		}
-		if (this.hasShooted == 0) {
-			System.out.println(this.hasShooted);
-		}
-		// 坦克又成功发射一颗炮弹
-		this.hasShooted += 1;
+
 		// 播放发射炮弹的声音
 		new PlaySound("sound/shoot.wav").start();
 		
@@ -190,15 +180,6 @@ public class Tank {
 	public void setDirection(DIRECTION direction) {
 		this.direction = direction;
 	}
-
-	public void subOneHasShooted() {
-		if (this.hasShooted >= 1) {
-			this.hasShooted -= 1;
-		}
-		
-		System.out.println(this.hasShooted);
-	}
-
 	
 	public boolean isOutofBound(int x, int y) {
 		switch (this.direction) {

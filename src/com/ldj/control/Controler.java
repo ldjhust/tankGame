@@ -37,8 +37,8 @@ public class Controler extends KeyAdapter {
 		// 创建一个英雄并添加到面板中
 		this.minePanel.addTank(new HeroTank(new Point(100, 100)));
 		
-		// 创建一个地方坦克
-		this.minePanel.addTank(new EnemyTank(new Point(500, 300)));
+		// 创建一个敌方坦克
+		this.minePanel.addTank(new EnemyTank(new Point(500, 300), this.minePanel));
 		
 		// 启动一个面板定时刷新的线程
 		new RefreshPanel().start();

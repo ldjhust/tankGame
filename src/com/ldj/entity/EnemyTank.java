@@ -1,10 +1,14 @@
 package com.ldj.entity;
 
 import com.ldj.entity.GameConst.DIRECTION;
+import com.ldj.ui.MinePanel;
 
 public class EnemyTank extends Tank {
-	public EnemyTank(Point EnemyTankPosition) {
+	private MinePanel minePanel = null; // 保存对游戏面板的引用
+	
+	public EnemyTank(Point EnemyTankPosition, MinePanel minePanel) {
 		super(EnemyTankPosition);
+		this.minePanel = minePanel;
 		
 		// 一旦生成就开始运动
 		new MoveDriver().start();
@@ -93,22 +97,35 @@ public class EnemyTank extends Tank {
 	 */
 	private class MoveDriver extends Thread {
 		public void run() {
-			int flag = 0;
+			int moveFlag = 0;
+			int shootFlag = 0;
 			while (EnemyTank.this.isAlived()) {			
 				EnemyTank.this.move(EnemyTank.this.getDirection());
-				if (flag < 50) {
-					flag++;
+				if (moveFlag < 50) {
+					moveFlag++;
 				} else {
 					// 每隔5000ms改变一次方向
-					flag = 0;
+					moveFlag = 0;
 					EnemyTank.this.changeDirection();
 				}
+				
+				if (shootFlag < 10) {
+					shootFlag++;
+				} else {
+					// 每隔1000ms射击
+					shootFlag = 0;
+					int shoot = (int)(Math.random() * 3); // 每隔1s以三分之一的概率射击
+					if (shoot == 0 && EnemyTank.this.minePanel != null) {
+						EnemyTank.this.minePanel.addBomb(EnemyTank.this.shoot());
+					}
+				}
 				try {
-					Thread.sleep(100);
+					Thread.sleep(100);  
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 	}
+
 }
